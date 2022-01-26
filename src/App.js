@@ -1,11 +1,11 @@
 import "./styles.css";
 
-import { CreateFlow } from "./CreateFlow";
+import { EmployerFlow } from "./EmployerFlow";
 
 export default function App() {
   return (
     <div className="App">
-      <CreateFlow />
+      <EmployerFlow />
     </div>
   );
 }

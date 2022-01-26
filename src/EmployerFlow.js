@@ -53,7 +53,7 @@ async function createFlow(recipient, flowRate) {
   }
 }
 
-export const CreateFlow = () => {
+export const EmployerFlow = () => {
   const [recipient, setRecipient] = useState("");
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [flowRate, setFlowRate] = useState("");
@@ -97,7 +97,7 @@ export const CreateFlow = () => {
 
   return (
     <div>
-      <h2>Create a Flow</h2>
+      <h2>Employer Portal</h2>
       <Form>
         <FormGroup className="mb-3">
           <FormControl
