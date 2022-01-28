@@ -54,9 +54,9 @@ async function createFlow(recipient, flowRate) {
 }
 
 export const EmployeeFlow = () => {
-  const [recipient, setRecipient] = useState("");
+  const [recipient, setRecipient] = useState("0x76b5bd7F6A9cF34Fef6E2987EB14D83dc569e2E7");
   const [isButtonLoading, setIsButtonLoading] = useState(false);
-  const [flowRate, setFlowRate] = useState("");
+  const [flowRate, setFlowRate] = useState("100%");
   const [flowRateDisplay, setFlowRateDisplay] = useState("");
 
   function calculateFlowRate(amount) {
@@ -96,10 +96,11 @@ export const EmployeeFlow = () => {
   };
 
   return (
-    <div>
+    <div style={{margin: "50px"}}>
       <h2>Employee Portal</h2>
       <Form>
         <FormGroup className="mb-3">
+        <h3 style={{marginTop: "20px"}}>Wallet 1</h3>
           <FormControl
             name="recipient"
             value={recipient}
@@ -112,10 +113,11 @@ export const EmployeeFlow = () => {
             name="flowRate"
             value={flowRate}
             onChange={handleFlowRateChange}
-            placeholder="Enter a flowRate in wei/second"
+            placeholder="Enter your %"
           ></FormControl>
         </FormGroup>
-        <CreateButton
+        <Button>Add Another Wallet</Button>
+        {/* <CreateButton
           onClick={() => {
             setIsButtonLoading(true);
             createFlow(recipient, flowRate);
@@ -125,9 +127,9 @@ export const EmployeeFlow = () => {
           }}
         >
           Click to Create Your Stream
-        </CreateButton>
+        </CreateButton> */}
       </Form>
-
+{/* 
       <div className="description">
         <p>
           Go to the CreateFlow.js component and look at the <b>createFlow() </b>
@@ -139,7 +141,7 @@ export const EmployeeFlow = () => {
             <b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> ETHx/month
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

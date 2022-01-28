@@ -6,7 +6,7 @@ import "./createFlow.css";
 import { ethers } from "ethers";
 
 //where the Superfluid logic takes place
-async function createFlow(recipient, flowRate) {
+async function createFlow(recipient, flowRate, name) {
   const mmProvider = new ethers.providers.Web3Provider(window.ethereum);
   const sf = await Framework.create({
     networkName: "ropsten",
@@ -34,6 +34,7 @@ async function createFlow(recipient, flowRate) {
 
     const result = await createFlowOperation.exec(signer);
     console.log(result);
+    setEmployees([{"name": name}]);
 
     console.log(
       `Congrats - you've just created a money stream!
@@ -55,9 +56,11 @@ async function createFlow(recipient, flowRate) {
 
 export const EmployerFlow = () => {
   const [recipient, setRecipient] = useState("");
+  const [name, setName] = useState("");
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [flowRate, setFlowRate] = useState("");
   const [flowRateDisplay, setFlowRateDisplay] = useState("");
+  const [employees, setEmployees] = useState([{"name": "test_employee"}]);
 
   function calculateFlowRate(amount) {
     if (typeof Number(amount) !== "number" || isNaN(Number(amount)) === true) {
@@ -76,7 +79,7 @@ export const EmployerFlow = () => {
 
   function CreateButton({ isLoading, children, ...props }) {
     return (
-      <Button variant="success" className="button" {...props}>
+      <Button variant="success" className="button"  style={{marginLeft: "30px"}} {...props}>
         {isButtonLoading ? <Spinner animation="border" /> : children}
       </Button>
     );
@@ -84,6 +87,10 @@ export const EmployerFlow = () => {
 
   const handleRecipientChange = (e) => {
     setRecipient(() => ([e.target.name] = e.target.value));
+  };
+
+  const handleNameChange = (e) => {
+    setName(() => ([e.target.name] = e.target.value));
   };
 
   const handleFlowRateChange = (e) => {
@@ -96,15 +103,24 @@ export const EmployerFlow = () => {
   };
 
   return (
-    <div>
-      <h2>Employer Portal</h2>
+    <div style={{margin: "50px"}}>
+      <h1 >Employer Portal</h1>
       <Form>
+        <h2 style={{marginTop: "50px"}}>Add New Employee</h2>
+        <FormGroup className="mb-3">
+          <FormControl
+            name="name"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="Enter Employee's Name"
+          ></FormControl>
+        </FormGroup>        
         <FormGroup className="mb-3">
           <FormControl
             name="recipient"
             value={recipient}
             onChange={handleRecipientChange}
-            placeholder="Enter your Ethereum address"
+            placeholder="Enter Employee's Ethereum address"
           ></FormControl>
         </FormGroup>
         <FormGroup className="mb-3">
@@ -118,27 +134,41 @@ export const EmployerFlow = () => {
         <CreateButton
           onClick={() => {
             setIsButtonLoading(true);
-            createFlow(recipient, flowRate);
+            createFlow(recipient, flowRate, name, setEmployees);
             setTimeout(() => {
               setIsButtonLoading(false);
             }, 1000);
           }}
         >
-          Click to Create Your Stream
+          Add Employee to Payroll
         </CreateButton>
       </Form>
+      
+
+      
 
       <div className="description">
-        <p>
+        {/* <p>
           Go to the CreateFlow.js component and look at the <b>createFlow() </b>
           function to see under the hood
-        </p>
+        </p> */}
         <div className="calculation">
-          <p>Your flow will be equal to:</p>
+          <p>You will be paying this employee:</p>
           <p>
             <b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> ETHx/month
           </p>
         </div>
+      </div>
+
+      <div style={{marginTop: "50px"}}>
+        <h1>Your Employees</h1>
+
+        {employees.map(employee => {
+          return (
+            <li>{employee.name}</li>
+
+          )
+        })}
       </div>
     </div>
   );
